@@ -1,6 +1,6 @@
 const webpack = require("webpack");
 const path = require("path");
-
+const { NormalModuleReplacementPlugin } = require("webpack");
 const Analyzer = require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const MiniCssExtractText = require("mini-css-extract-plugin");
 const HTMLWebpackPlugin = require("html-webpack-plugin");
@@ -24,6 +24,10 @@ module.exports = {
         new webpack.ProvidePlugin({
             React: "react",
         }),
+        new NormalModuleReplacementPlugin(
+            /.*\/generated\/iconSvgPaths.js/,
+            path.resolve(__dirname, "../emptyIconSvgPaths.js")
+        ),
         new HTMLWebpackPlugin({
             template: path.resolve(__dirname, "../public/index.html"),
             filename: "index.html",

@@ -6,15 +6,23 @@ const MiniCSSExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const PurgecssPlugin = require("purgecss-webpack-plugin");
 
+const PATHS = {
+    src: path.join(__dirname, "../src"),
+};
+
 module.exports = merge(common, {
     mode: "production",
     optimization: {
+        usedExports: false,
         splitChunks: {
             chunks: "all",
             cacheGroups: {
                 vendor: {
-                    name: "vendor",
                     test: /[\\/]node_modules[\\/]/,
+                    name(module) {
+                        const packagename = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+                        return `npm.${packagename.replace("@", "")}`;
+                    },
                 },
                 styles: {
                     test: /\.css$/,
@@ -32,7 +40,7 @@ module.exports = merge(common, {
             chunkFilename: "css/[id].[hash].css",
         }),
         new PurgecssPlugin({
-            paths: glob.sync(path.resolve(__dirname, "../src/**/*"), { nodir: true }),
+            paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
         }),
     ],
 });

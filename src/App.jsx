@@ -1,5 +1,11 @@
 import React from "react";
-import { Navbar, NavbarGroup, NavbarHeading, Alignment, Button, Drawer, Position } from "@blueprintjs/core";
+import { Navbar } from "@blueprintjs/core/lib/esm/components/navbar/navbar";
+import { NavbarGroup } from "@blueprintjs/core/lib/esm/components/navbar/navbarGroup";
+import { NavbarHeading } from "@blueprintjs/core/lib/esm/components/navbar/navbarHeading";
+import { Alignment } from "@blueprintjs/core/lib/esm/common/alignment";
+import { Button } from "@blueprintjs/core/lib/esm/components/button/buttons";
+import { Drawer } from "@blueprintjs/core/lib/esm/components/drawer/drawer";
+import { Position } from "@blueprintjs/core/lib/esm/common/position";
 
 class App extends React.Component {
     constructor(props) {
