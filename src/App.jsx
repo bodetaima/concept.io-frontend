@@ -1,5 +1,7 @@
 import React from "react";
-import NavBar from "./components/NavBar";
+import { connect } from "react-redux";
+import ProfileSelector from "./views/ProfileSelector";
+import Home from "./views/Home";
 
 class App extends React.Component {
     constructor(props) {
@@ -12,13 +14,14 @@ class App extends React.Component {
     }
 
     render() {
-        return (
-            <>
-                <NavBar title="Concept" />
-                <div>Hello, Concept!</div>
-            </>
-        );
+        return <>{this.props.loggedIn ? <Home /> : <ProfileSelector />}</>;
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        loggedIn: state.auth.loggedIn,
+    };
+};
+
+export default connect(mapStateToProps)(App);
