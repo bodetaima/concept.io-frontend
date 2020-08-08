@@ -1,19 +1,9 @@
 import React from "react";
-import { profiles } from "../utils/mockData";
-import { chooseProfile } from "../store/actions";
+import { chooseProfile, getProfiles } from "../store/actions";
 import { connect } from "react-redux";
-import { Card, Elevation, Button, Text, Divider } from "@blueprintjs/core";
-
-const styles = {
-    card: {
-        width: "50%",
-        padding: 15,
-        position: "absolute",
-        left: "50%",
-        top: "50%",
-        transform: "translate(-50%, -50%)",
-    },
-};
+import { Card, Spinner } from "@blueprintjs/core";
+import ProfileList from "../components/ProfileList";
+import "./styles/profile-selector.css";
 
 class ProfileSelector extends React.Component {
     constructor(props) {
@@ -21,34 +11,31 @@ class ProfileSelector extends React.Component {
         this.state = {};
     }
 
-    render() {
-        const profileList = profiles.map((profile) => {
-            return (
-                <Card interactive={true} elevation={Elevation.TWO} style={{ margin: 10 }} key={profile.id}>
-                    <Text ellipsize={true}>
-                        <strong>{profile.name}</strong>
-                    </Text>
-                    <Text ellipsize={true}>{profile.email}</Text>
-                    <Divider />
-                    <Button
-                        loading={this.props.pending}
-                        text="Select"
-                        onClick={() => this.props.chooseProfile(profile)}
-                    />
-                </Card>
-            );
-        });
+    componentDidMount() {
+        const { getProfiles } = this.props;
+        getProfiles();
+    }
 
-        return <Card style={styles.card}>{profileList}</Card>;
+    render() {
+        const { profiles, chooseProfilePending, chooseProfile, getProfilesPending } = this.props;
+
+        const profileList = profiles.map((profile) => (
+            <ProfileList key={profile.id} pending={chooseProfilePending} profile={profile} clicked={chooseProfile} />
+        ));
+
+        return <div className="card">{getProfilesPending ? <Spinner /> : <Card>{profileList}</Card>}</div>;
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        pending: state.auth.pending,
+        getProfilesPending: state.auth.getProfilesPending,
+        chooseProfilePending: state.auth.chooseProfilePending,
+        profiles: state.auth.profiles,
     };
 };
 const mapDispatchToProps = (dispatch) => ({
+    getProfiles: () => dispatch(getProfiles()),
     chooseProfile: (profile) => dispatch(chooseProfile(profile)),
 });
 

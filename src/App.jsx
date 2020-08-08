@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import ProfileSelector from "./views/ProfileSelector";
 import Home from "./views/Home";
+import "./styles/app.css";
 
 class App extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class App extends React.Component {
     }
 
     render() {
-        return <>{this.props.loggedIn ? <Home /> : <ProfileSelector />}</>;
+        const { loggedIn } = this.props;
+        return <>{loggedIn ? <Home /> : <ProfileSelector />}</>;
     }
 }
 
