@@ -1,16 +1,17 @@
-FROM node:latest AS builder
+FROM node:lts-alpine3.12 AS builder
+RUN apk add yarn
 
 WORKDIR /opt/web
-COPY package.json package-lock.json ./
-RUN npm install
+COPY package.json yarn.lock ./
+RUN yarn install
 
 ENV PATH="./node_modules/.bin:$PATH"
 
 COPY . ./
-RUN npm run build
+RUN yarn run build
 
-FROM nginx:latest
-RUN apt install curl
+FROM nginx:1.19.1-alpine
+RUN apk add curl
 RUN curl -L https://github.com/a8m/envsubst/releases/download/v1.2.0/envsubst-`uname -s`-`uname -m` -o envsubst && \
     chmod +x envsubst && \
     mv envsubst /usr/local/bin
