@@ -1,4 +1,4 @@
-import { auth } from "../actions/actionTypes";
+import { auth, app } from "../actions/actionTypes";
 
 const profile = JSON.parse(localStorage.getItem("_p"));
 
@@ -61,4 +61,24 @@ function authReducers(state = authInitialState, action) {
     }
 }
 
-export { authReducers };
+const appInitialState = {
+    drawerState: false,
+};
+
+function appReducers(state = appInitialState, action) {
+    const { type } = action;
+    switch (type) {
+        case app.OPEN_DRAWER:
+            return {
+                drawerState: true,
+            };
+        case app.CLOSE_DRAWER:
+            return {
+                drawerState: false,
+            };
+        default:
+            return state;
+    }
+}
+
+export { authReducers, appReducers };

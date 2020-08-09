@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { connect } from "react-redux";
-import ProfileSelector from "./views/ProfileSelector";
-import Home from "./views/Home";
-import "./styles/app.css";
+import { BrowserRouter } from "react-router-dom";
+const ProfileSelector = React.lazy(() => import("./views/profiles/ProfileSelector"));
+const Home = React.lazy(() => import("./views/home/Home"));
+import "@styles/app.css";
 
 class App extends React.Component {
     constructor(props) {
@@ -16,7 +17,21 @@ class App extends React.Component {
 
     render() {
         const { loggedIn } = this.props;
-        return <>{loggedIn ? <Home /> : <ProfileSelector />}</>;
+        return (
+            <>
+                {loggedIn ? (
+                    <Suspense fallback={<div className="bp3-skeleton"></div>}>
+                        <BrowserRouter>
+                            <Home />
+                        </BrowserRouter>
+                    </Suspense>
+                ) : (
+                    <Suspense fallback={<div className="bp3-skeleton"></div>}>
+                        <ProfileSelector />
+                    </Suspense>
+                )}
+            </>
+        );
     }
 }
 

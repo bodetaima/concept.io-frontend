@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import {
     Navbar,
@@ -11,19 +11,9 @@ import {
     Popover,
     PopoverInteractionKind,
 } from "@blueprintjs/core";
-import { logout } from "../store/actions";
+import { logout, handleOpenDrawer, handleCloseDrawer } from "@store/actions";
 
-const NavBar = (props) => {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-    const handleOpenDrawer = () => {
-        setIsDrawerOpen(true);
-    };
-
-    const handleCloseDrawer = () => {
-        setIsDrawerOpen(false);
-    };
-
+const NavBar = ({ logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, title, profile }) => {
     return (
         <Navbar className="bp3-dark">
             <NavbarGroup align={Alignment.LEFT}>
@@ -40,7 +30,7 @@ const NavBar = (props) => {
                 >
                     Hello
                 </Drawer>
-                <NavbarHeading>{props.title}</NavbarHeading>
+                <NavbarHeading>{title}</NavbarHeading>
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>
                 <Button className="bp3-minimal" text="Share" />
@@ -50,11 +40,11 @@ const NavBar = (props) => {
                     popoverClassName="bp3-popover-content-sizing"
                     position={Position.BOTTOM_RIGHT}
                 >
-                    <Button className="bp3-minimal" text={props.profile.name} />
+                    <Button className="bp3-minimal" text={profile.name} />
                     <div>
                         <p>Do you want to change profile?</p>
                         <Button
-                            onClick={props.logout}
+                            onClick={logout}
                             className="bp3-intent-danger"
                             style={{ marginRight: 5 }}
                             text="Logout"
@@ -69,11 +59,14 @@ const NavBar = (props) => {
 const mapStateToProps = (state) => {
     return {
         profile: state.auth.profile,
+        isDrawerOpen: state.app.drawerState,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     logout: () => dispatch(logout()),
+    handleOpenDrawer: () => dispatch(handleOpenDrawer()),
+    handleCloseDrawer: () => dispatch(handleCloseDrawer()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -7,6 +7,32 @@ const HTMLWebpackPlugin = require("html-webpack-plugin");
 const paths = require("./paths.js");
 const isProd = process.env.mode === "production";
 
+const CSSModuleLoader = {
+    loader: "css-loader",
+    options: {
+        modules: {
+            mode: "local",
+            auto: true,
+            exportGlobals: true,
+            localIdentName: isProd ? "[hash:base64:5]" : "[local]",
+            context: path.resolve(__dirname, "src"),
+        },
+        importLoaders: 2,
+        sourceMap: !isProd,
+    },
+};
+
+const CSSLoader = {
+    loader: "css-loader",
+    options: {
+        modules: "global",
+        importLoaders: 2,
+        sourceMap: !isProd,
+    },
+};
+
+const styleLoader = isProd ? MiniCssExtractText.loader : "style-loader";
+
 module.exports = {
     entry: {
         main: path.resolve(__dirname, "../src/index.js"),
@@ -83,17 +109,12 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    {
-                        loader: MiniCssExtractText.loader,
-                    },
-                    {
-                        loader: "css-loader",
-                        options: {
-                            sourceMap: !isProd,
-                        },
-                    },
-                ],
+                exclude: /\.module\.css$/,
+                use: [styleLoader, CSSLoader],
+            },
+            {
+                test: /\.module\.css$/,
+                use: [styleLoader, CSSModuleLoader],
             },
         ],
     },

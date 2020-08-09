@@ -1,9 +1,9 @@
 import React from "react";
-import { chooseProfile, getProfiles } from "../store/actions";
+import { chooseProfile, getProfiles } from "@store/actions";
 import { connect } from "react-redux";
 import { Card, Spinner } from "@blueprintjs/core";
-import ProfileList from "../components/ProfileList";
-import "./styles/profile-selector.css";
+import ProfileList from "@components/profiles/ProfileList";
+import styles from "./styles/profile-selector.module.css";
 
 class ProfileSelector extends React.Component {
     constructor(props) {
@@ -23,7 +23,7 @@ class ProfileSelector extends React.Component {
             <ProfileList key={profile.id} pending={chooseProfilePending} profile={profile} clicked={chooseProfile} />
         ));
 
-        return <div className="card">{getProfilesPending ? <Spinner /> : <Card>{profileList}</Card>}</div>;
+        return <div className={styles.card}>{getProfilesPending ? <Spinner /> : <Card>{profileList}</Card>}</div>;
     }
 }
 

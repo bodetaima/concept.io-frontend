@@ -8,4 +8,9 @@ const auth = {
     LOGOUT: "logout",
 };
 
-export { auth };
+const app = {
+    OPEN_DRAWER: "openDrawer",
+    CLOSE_DRAWER: "closeDrawer",
+};
+
+export { auth, app };

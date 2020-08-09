@@ -6,6 +6,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = merge(common, {
     mode: "production",
     optimization: {
+        runtimeChunk: "single",
         usedExports: false,
         splitChunks: {
             chunks: "all",
@@ -16,12 +17,6 @@ module.exports = merge(common, {
                         const packagename = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
                         return `npm.${packagename.replace("@", "")}`;
                     },
-                },
-                styles: {
-                    test: /\.css$/,
-                    name: "styles",
-                    chunks: "all",
-                    enforce: true,
                 },
             },
         },

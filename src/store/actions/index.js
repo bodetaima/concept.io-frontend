@@ -1,4 +1,4 @@
-import { auth } from "./actionTypes";
+import { auth, app } from "./actionTypes";
 import ProfileService from "../../services/profile.services";
 
 function actionCreator(type, payload) {
@@ -34,5 +34,17 @@ export function logout() {
     return (dispatch) => {
         ProfileService.logout();
         dispatch(actionCreator(auth.LOGOUT));
+    };
+}
+
+export function handleOpenDrawer() {
+    return (dispatch) => {
+        dispatch(actionCreator(app.OPEN_DRAWER));
+    };
+}
+
+export function handleCloseDrawer() {
+    return (dispatch) => {
+        dispatch(actionCreator(app.CLOSE_DRAWER));
     };
 }

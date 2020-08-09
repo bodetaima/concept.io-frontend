@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../components/NavBar";
+import Routes from "@views/routes.jsx";
 
 class Home extends React.Component {
     constructor(props) {
@@ -12,12 +12,7 @@ class Home extends React.Component {
     }
 
     render() {
-        return (
-            <>
-                <NavBar title="Concept" />
-                <div>Hello, Concept!</div>
-            </>
-        );
+        return <Routes />;
     }
 }
 
