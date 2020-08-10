@@ -1,10 +1,23 @@
-import { profiles } from "../utils/mockData";
+import req from "../utils/request";
 
 class ProfileService {
-    getProfiles() {
-        return new Promise((resolve) => {
-            setTimeout(resolve, 1200, profiles);
-        });
+    async getProfiles() {
+        const options = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        };
+        return req.get("profiles", options);
+    }
+
+    async createProfile(profile) {
+        const options = {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(profile),
+        };
+        return req.post("profile/create", options);
     }
 
     chooseProfile(profile) {

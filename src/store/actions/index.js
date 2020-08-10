@@ -13,9 +13,20 @@ export function getProfiles() {
         dispatch(actionCreator(auth.GET_PROFILES));
         return await ProfileService.getProfiles()
             .then((result) => {
-                dispatch(actionCreator(auth.GET_PROFILES_SUCCESS, result));
+                dispatch(actionCreator(auth.GET_PROFILES_SUCCESS, result.data));
             })
             .catch((error) => dispatch(actionCreator(auth.GET_PROFILES_FAILED, error)));
+    };
+}
+
+export function createProfile(profile) {
+    return async (dispatch) => {
+        dispatch(actionCreator(auth.CREATE_PROFILE));
+        return await ProfileService.createProfile(profile)
+            .then(() => {
+                dispatch(actionCreator(auth.CREATE_PROFILE_SUCCESS));
+            })
+            .catch((error) => dispatch(actionCreator(auth.CREATE_PROFILE_FAILED, error)));
     };
 }
 

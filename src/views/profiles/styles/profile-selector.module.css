@@ -7,6 +7,10 @@
     transform: translate(-50%, -50%);
 }
 
+.creator {
+    padding: 20px;
+}
+
 @media screen and (min-width: 1280px) {
     .card {
         width: 30%;

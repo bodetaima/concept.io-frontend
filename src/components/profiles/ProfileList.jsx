@@ -5,7 +5,7 @@ function ProfileList({ pending, profile, clicked }) {
     return (
         <Card interactive={true} elevation={Elevation.TWO} style={{ margin: 10 }} key={profile.id}>
             <Text ellipsize={true}>
-                <strong>{profile.name}</strong>
+                <strong>{profile.fullname}</strong>
             </Text>
             <Text ellipsize={true}>{profile.email}</Text>
             <Divider />

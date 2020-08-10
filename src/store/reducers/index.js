@@ -4,6 +4,8 @@ const profile = JSON.parse(localStorage.getItem("_p"));
 
 const authInitialState = {
     getProfilesPending: false,
+    createProfilePending: false,
+    createProfileSuccess: false,
     chooseProfilePending: false,
     loggedIn: profile ? true : false,
     profiles: [],
@@ -29,6 +31,24 @@ function authReducers(state = authInitialState, action) {
             return {
                 ...state,
                 getProfilesPending: false,
+                error: payload,
+            };
+        case auth.CREATE_PROFILE:
+            return {
+                ...state,
+                createProfilePending: true,
+            };
+        case auth.CREATE_PROFILE_SUCCESS:
+            return {
+                ...state,
+                createProfilePending: false,
+                createProfileSuccess: true,
+            };
+        case auth.CREATE_PROFILE_FAILED:
+            return {
+                ...state,
+                createProfilePending: false,
+                createProfileSuccess: false,
                 error: payload,
             };
         case auth.CHOOSE_PROFILE:
