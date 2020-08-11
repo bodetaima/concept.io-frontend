@@ -40,7 +40,7 @@ const NavBar = ({ logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, tit
                     popoverClassName="bp3-popover-content-sizing"
                     position={Position.BOTTOM_RIGHT}
                 >
-                    <Button className="bp3-minimal" text={profile.name} />
+                    <Button className="bp3-minimal" text={profile.fullname} />
                     <div>
                         <p>Do you want to change profile?</p>
                         <Button

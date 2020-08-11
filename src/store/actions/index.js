@@ -1,5 +1,6 @@
 import { auth, app } from "./actionTypes";
 import ProfileService from "../../services/profile.services";
+import Cookies from "../../utils/cookies";
 
 function actionCreator(type, payload) {
     return {
@@ -35,6 +36,8 @@ export function chooseProfile(profile) {
         dispatch(actionCreator(auth.CHOOSE_PROFILE));
         return await ProfileService.chooseProfile(profile)
             .then((result) => {
+                Cookies.setCookie("_p_logged_in", true, 10);
+                localStorage.setItem("_p_traits", JSON.stringify(result));
                 dispatch(actionCreator(auth.CHOOSE_PROFILE_SUCCESS, result));
             })
             .catch((error) => dispatch(actionCreator(auth.CHOOSE_PROFILE_FAILED, error)));
@@ -44,6 +47,8 @@ export function chooseProfile(profile) {
 export function logout() {
     return (dispatch) => {
         ProfileService.logout();
+        Cookies.deleteCookie("_p_logged_in");
+        localStorage.removeItem("_p_traits");
         dispatch(actionCreator(auth.LOGOUT));
     };
 }

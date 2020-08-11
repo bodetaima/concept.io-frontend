@@ -1,13 +1,14 @@
 import { auth, app } from "../actions/actionTypes";
+import Cookies from "../../utils/cookies";
 
-const profile = JSON.parse(localStorage.getItem("_p"));
+const profile = JSON.parse(localStorage.getItem("_p_traits"));
 
 const authInitialState = {
     getProfilesPending: false,
     createProfilePending: false,
     createProfileSuccess: false,
     chooseProfilePending: false,
-    loggedIn: profile ? true : false,
+    loggedIn: Cookies.checkCookie("_p_logged_in") ? true : false,
     profiles: [],
     profile: profile ? profile : {},
     error: null,
