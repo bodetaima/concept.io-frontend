@@ -7,6 +7,12 @@
     transform: translate(-50%, -50%);
 }
 
+.innerCard {
+    height: 600px;
+    border: 1px solid #BEBEBE;
+    overflow-y: scroll;
+}
+
 .creator {
     padding: 20px;
 }

@@ -20,7 +20,10 @@ class ProfileService {
         return req.post("profile/create", options);
     }
 
-    chooseProfile(profile) {
+    chooseProfile(profile, password = "") {
+        if (password !== "") {
+            profile.password = password;
+        }
         const options = {
             headers: {
                 "Content-Type": "application/json",

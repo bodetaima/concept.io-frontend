@@ -31,16 +31,18 @@ export function createProfile(profile) {
     };
 }
 
-export function chooseProfile(profile) {
+export function chooseProfile(profile, password) {
     return async (dispatch) => {
         dispatch(actionCreator(auth.CHOOSE_PROFILE));
-        return await ProfileService.chooseProfile(profile)
+        return await ProfileService.chooseProfile(profile, password)
             .then((result) => {
                 Cookies.setCookie("_p_logged_in", true, 10);
                 localStorage.setItem("_p_traits", JSON.stringify(result));
                 dispatch(actionCreator(auth.CHOOSE_PROFILE_SUCCESS, result));
             })
-            .catch((error) => dispatch(actionCreator(auth.CHOOSE_PROFILE_FAILED, error)));
+            .catch((error) => {
+                dispatch(actionCreator(auth.CHOOSE_PROFILE_FAILED, error));
+            });
     };
 }
 

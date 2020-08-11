@@ -26,6 +26,7 @@ function authReducers(state = authInitialState, action) {
             return {
                 ...state,
                 getProfilesPending: false,
+                error: null,
                 profiles: payload,
             };
         case auth.GET_PROFILES_FAILED:
@@ -44,6 +45,7 @@ function authReducers(state = authInitialState, action) {
                 ...state,
                 createProfilePending: false,
                 createProfileSuccess: true,
+                error: null,
             };
         case auth.CREATE_PROFILE_FAILED:
             return {
@@ -62,6 +64,7 @@ function authReducers(state = authInitialState, action) {
                 ...state,
                 chooseProfilePending: false,
                 profile: payload,
+                error: null,
                 loggedIn: true,
             };
         case auth.CHOOSE_PROFILE_FAILED:

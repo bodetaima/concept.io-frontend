@@ -76,50 +76,44 @@ class ProfileSelector extends React.Component {
     render() {
         const { profiles, chooseProfilePending, chooseProfile, getProfilesPending } = this.props;
 
-        let profileCards = [];
-
-        if (!this.isEmpty(profiles)) {
-            profileCards = profiles.map((profile) => (
-                <ProfileList
-                    key={profile.id}
-                    pending={chooseProfilePending}
-                    profile={profile}
-                    clicked={chooseProfile}
-                />
-            ));
-        } else {
-            profileCards = (
-                <>
-                    <Button
-                        loading={this.props.createProfilePending}
-                        icon="add"
-                        text="Create new profile"
-                        large
-                        minimal={true}
-                        onClick={this.handleOpen}
-                    />
-                    <Dialog onClose={this.handleClose} title="Create new profile" {...this.state}>
-                        <ProfileCreator
-                            onNameInput={this.handleNameInput}
-                            onEmailInput={this.handleEmailInput}
-                            onPrivateInput={this.handlePrivateInput}
-                            onPasswordInput={this.handlePasswordInput}
-                        />
-                        <div className={Classes.DIALOG_FOOTER}>
-                            <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                                <Button intent={Intent.PRIMARY} onClick={this.handleCreateProfile}>
-                                    Create
-                                </Button>
-                            </div>
-                        </div>
-                    </Dialog>
-                </>
-            );
-        }
+        const profileCards = profiles.map((profile) => (
+            <ProfileList key={profile.id} pending={chooseProfilePending} profile={profile} clicked={chooseProfile} />
+        ));
 
         return (
             <>
-                <div className={styles.card}>{getProfilesPending ? <Spinner /> : <Card>{profileCards}</Card>}</div>
+                <div className={styles.card}>
+                    {getProfilesPending ? (
+                        <Spinner />
+                    ) : (
+                        <Card>
+                            <div className={styles.innerCard}>{profileCards}</div>
+                            <Button
+                                loading={this.props.createProfilePending}
+                                icon="add"
+                                text="Create new profile"
+                                large
+                                minimal={true}
+                                onClick={this.handleOpen}
+                            />
+                            <Dialog onClose={this.handleClose} title="Create new profile" {...this.state}>
+                                <ProfileCreator
+                                    onNameInput={this.handleNameInput}
+                                    onEmailInput={this.handleEmailInput}
+                                    onPrivateInput={this.handlePrivateInput}
+                                    onPasswordInput={this.handlePasswordInput}
+                                />
+                                <div className={Classes.DIALOG_FOOTER}>
+                                    <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+                                        <Button intent={Intent.PRIMARY} onClick={this.handleCreateProfile}>
+                                            Create
+                                        </Button>
+                                    </div>
+                                </div>
+                            </Dialog>
+                        </Card>
+                    )}
+                </div>
             </>
         );
     }
@@ -137,7 +131,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
     getProfiles: () => dispatch(getProfiles()),
     createProfile: (profile) => dispatch(createProfile(profile)),
-    chooseProfile: (profile) => dispatch(chooseProfile(profile)),
+    chooseProfile: (profile, password) => dispatch(chooseProfile(profile, password)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSelector);

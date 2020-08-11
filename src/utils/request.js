@@ -7,7 +7,12 @@ function f(path, options) {
     const _e = API_URL;
     return new Promise((resolve, reject) => {
         fetch(`${_e}${path}`, options)
-            .then((res) => resolve(res.json()))
+            .then((res) => {
+                if (!res.ok) {
+                    reject(res.statusText);
+                }
+                return resolve(res.json());
+            })
             .catch((e) => reject(e));
     });
 }
