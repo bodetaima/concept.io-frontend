@@ -25,6 +25,7 @@ export default {
         if (session != "") {
             return true;
         }
+        return false;
     },
     deleteCookie(name) {
         if (this.getCookie(name)) {

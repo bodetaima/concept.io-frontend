@@ -37,10 +37,12 @@ export function chooseProfile(profile, password) {
         return await ProfileService.chooseProfile(profile, password)
             .then((result) => {
                 Cookies.setCookie("_p_logged_in", true, 10);
+                Cookies.deleteCookie("_p_e");
                 localStorage.setItem("_p_traits", JSON.stringify(result));
                 dispatch(actionCreator(auth.CHOOSE_PROFILE_SUCCESS, result));
             })
             .catch((error) => {
+                Cookies.setCookie("_p_e", true, 10);
                 dispatch(actionCreator(auth.CHOOSE_PROFILE_FAILED, error));
             });
     };

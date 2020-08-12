@@ -11,7 +11,9 @@ const authInitialState = {
     loggedIn: Cookies.checkCookie("_p_logged_in") ? true : false,
     profiles: [],
     profile: profile ? profile : {},
-    error: null,
+    getProfilesError: null,
+    createProfileError: null,
+    chooseProfileError: null,
 };
 
 function authReducers(state = authInitialState, action) {
@@ -26,14 +28,14 @@ function authReducers(state = authInitialState, action) {
             return {
                 ...state,
                 getProfilesPending: false,
-                error: null,
+                getProfilesError: null,
                 profiles: payload,
             };
         case auth.GET_PROFILES_FAILED:
             return {
                 ...state,
                 getProfilesPending: false,
-                error: payload,
+                getProfilesError: payload,
             };
         case auth.CREATE_PROFILE:
             return {
@@ -45,14 +47,14 @@ function authReducers(state = authInitialState, action) {
                 ...state,
                 createProfilePending: false,
                 createProfileSuccess: true,
-                error: null,
+                createProfileError: null,
             };
         case auth.CREATE_PROFILE_FAILED:
             return {
                 ...state,
                 createProfilePending: false,
                 createProfileSuccess: false,
-                error: payload,
+                createProfileError: payload,
             };
         case auth.CHOOSE_PROFILE:
             return {
@@ -64,14 +66,14 @@ function authReducers(state = authInitialState, action) {
                 ...state,
                 chooseProfilePending: false,
                 profile: payload,
-                error: null,
+                chooseProfileError: null,
                 loggedIn: true,
             };
         case auth.CHOOSE_PROFILE_FAILED:
             return {
                 ...state,
                 chooseProfilePending: false,
-                error: payload,
+                chooseProfileError: payload,
             };
         case auth.LOGOUT:
             return {

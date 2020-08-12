@@ -1,7 +1,7 @@
 import React from "react";
 import { chooseProfile, getProfiles, createProfile } from "@store/actions";
 import { connect } from "react-redux";
-import { Card, Spinner, Button, Dialog, Classes, Intent, Toast } from "@blueprintjs/core";
+import { Card, Spinner, Button, Dialog, Classes, Intent, Toast, Text } from "@blueprintjs/core";
 import ProfileList from "@components/profiles/ProfileList";
 import ProfileCreator from "@components/profiles/ProfileCreator";
 import styles from "./styles/profile-selector.module.css";
@@ -74,10 +74,10 @@ class ProfileSelector extends React.Component {
     };
 
     render() {
-        const { profiles, chooseProfilePending, chooseProfile, getProfilesPending } = this.props;
+        const { profiles, getProfilesError, chooseProfilePending, getProfilesPending } = this.props;
 
         const profileCards = profiles.map((profile) => (
-            <ProfileList key={profile.id} pending={chooseProfilePending} profile={profile} clicked={chooseProfile} />
+            <ProfileList key={profile.id} pending={chooseProfilePending} profile={profile} />
         ));
 
         return (
@@ -87,30 +87,39 @@ class ProfileSelector extends React.Component {
                         <Spinner />
                     ) : (
                         <Card>
-                            <div className={styles.innerCard}>{profileCards}</div>
-                            <Button
-                                loading={this.props.createProfilePending}
-                                icon="add"
-                                text="Create new profile"
-                                large
-                                minimal={true}
-                                onClick={this.handleOpen}
-                            />
-                            <Dialog onClose={this.handleClose} title="Create new profile" {...this.state}>
-                                <ProfileCreator
-                                    onNameInput={this.handleNameInput}
-                                    onEmailInput={this.handleEmailInput}
-                                    onPrivateInput={this.handlePrivateInput}
-                                    onPasswordInput={this.handlePasswordInput}
-                                />
-                                <div className={Classes.DIALOG_FOOTER}>
-                                    <div className={Classes.DIALOG_FOOTER_ACTIONS}>
-                                        <Button intent={Intent.PRIMARY} onClick={this.handleCreateProfile}>
-                                            Create
-                                        </Button>
-                                    </div>
-                                </div>
-                            </Dialog>
+                            {getProfilesError && (
+                                <Text>
+                                    <span style={{ color: "red" }}>Error fetching data!</span>
+                                </Text>
+                            )}
+                            {!this.isEmpty(profiles) ? <div className={styles.innerCard}>{profileCards}</div> : null}
+                            {!getProfilesError && (
+                                <>
+                                    <Button
+                                        loading={this.props.createProfilePending}
+                                        icon="add"
+                                        text="Create new profile"
+                                        large
+                                        minimal={true}
+                                        onClick={this.handleOpen}
+                                    />
+                                    <Dialog onClose={this.handleClose} title="Create new profile" {...this.state}>
+                                        <ProfileCreator
+                                            onNameInput={this.handleNameInput}
+                                            onEmailInput={this.handleEmailInput}
+                                            onPrivateInput={this.handlePrivateInput}
+                                            onPasswordInput={this.handlePasswordInput}
+                                        />
+                                        <div className={Classes.DIALOG_FOOTER}>
+                                            <div className={Classes.DIALOG_FOOTER_ACTIONS}>
+                                                <Button intent={Intent.PRIMARY} onClick={this.handleCreateProfile}>
+                                                    Create
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </Dialog>
+                                </>
+                            )}
                         </Card>
                     )}
                 </div>
@@ -125,13 +134,13 @@ const mapStateToProps = (state) => {
         chooseProfilePending: state.auth.chooseProfilePending,
         createProfilePending: state.auth.createProfilePending,
         createProfileSuccess: state.auth.createProfileSuccess,
+        getProfilesError: state.auth.getProfilesError,
         profiles: state.auth.profiles,
     };
 };
 const mapDispatchToProps = (dispatch) => ({
     getProfiles: () => dispatch(getProfiles()),
     createProfile: (profile) => dispatch(createProfile(profile)),
-    chooseProfile: (profile, password) => dispatch(chooseProfile(profile, password)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileSelector);

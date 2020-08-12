@@ -1,12 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Card, Elevation, Button, Text, Divider, InputGroup, Intent, FormGroup } from "@blueprintjs/core";
+import { chooseProfile } from "../../store/actions";
+import Cookies from "../../utils/cookies";
 
-function ProfileList({ pending, profile, clicked, error }) {
+function ProfileList({ pending, profile, chooseProfile, chooseProfileError }) {
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
+
+    useEffect(() => {
+        if (Cookies.checkCookie("_p_e")) {
+            setError(true);
+        }
+    }, []);
 
     const handleInput = (e) => {
         setPassword(e.target.value);
+    };
+
+    const handleSubmit = () => {
+        chooseProfile(profile, password);
     };
 
     return (
@@ -18,7 +31,7 @@ function ProfileList({ pending, profile, clicked, error }) {
             <Text ellipsize={true}>{profile.email}</Text>
             <Divider />
             {profile.private && (
-                <>
+                <form onSubmit={handleSubmit}>
                     <FormGroup intent={error ? Intent.DANGER : Intent.NONE} helperText={error && "Password not match"}>
                         <InputGroup
                             intent={error ? Intent.DANGER : Intent.NONE}
@@ -27,18 +40,22 @@ function ProfileList({ pending, profile, clicked, error }) {
                             onChange={handleInput}
                         />
                     </FormGroup>
-                    <Button loading={pending} text="Select" onClick={() => clicked(profile, password)} />
-                </>
+                    <Button type="submit" loading={pending} text="Select" />
+                </form>
             )}
-            {!profile.private && <Button loading={pending} text="Select" onClick={() => clicked(profile)} />}
+            {!profile.private && <Button loading={pending} text="Select" onClick={() => chooseProfile(profile)} />}
         </Card>
     );
 }
 
 const mapStateToProps = (state) => {
     return {
-        error: state.auth.error,
+        chooseProfileError: state.auth.chooseProfileError,
     };
 };
 
-export default connect(mapStateToProps)(ProfileList);
+const mapDispatchToProps = (dispatch) => ({
+    chooseProfile: (profile, password) => dispatch(chooseProfile(profile, password)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileList);
