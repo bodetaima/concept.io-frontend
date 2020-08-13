@@ -1,13 +1,11 @@
 import React from "react";
-import NavBar from "@components/navbar/NavBar";
 import styles from "./styles/container.module.css";
-import { handleOpenDrawer } from "@store/actions";
-import { connect } from "react-redux";
+import {handleOpenDrawer} from "@store/actions";
+import {connect} from "react-redux";
 
-function Container({ handleOpenDrawer }) {
+function Container({handleOpenDrawer}) {
     return (
         <>
-            <NavBar title="Concept" />
             <div className={styles.container}>
                 <h1>Welcome to your Concept</h1>
                 <span>Have a nice day!</span>

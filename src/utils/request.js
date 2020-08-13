@@ -1,4 +1,4 @@
-import { API_URL } from "@constants";
+import {API_URL} from "@constants";
 import Cookies from "../utils/cookies";
 
 const _csrf = Cookies.getCookie("XSRF-TOKEN");
@@ -8,8 +8,8 @@ function f(path, options) {
     return new Promise((resolve, reject) => {
         fetch(`${_e}${path}`, options)
             .then((res) => {
-                if (!res.ok) {
-                    reject(res.statusText);
+                if (res.status !== 200) {
+                    throw new Error(res.statusText);
                 }
                 return resolve(res.json());
             })

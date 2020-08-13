@@ -14,6 +14,8 @@ const auth = {
 const app = {
     OPEN_DRAWER: "openDrawer",
     CLOSE_DRAWER: "closeDrawer",
+    OPEN_PROFILE_CREATOR: "openProfileCreator",
+    CLOSE_PROFILE_CREATOR: "closeProfileCreator",
 };
 
 export { auth, app };

@@ -1,4 +1,4 @@
-import { auth, app } from "../actions/actionTypes";
+import {app, auth} from "../actions/actionTypes";
 import Cookies from "../../utils/cookies";
 
 const profile = JSON.parse(localStorage.getItem("_p_traits"));
@@ -6,9 +6,8 @@ const profile = JSON.parse(localStorage.getItem("_p_traits"));
 const authInitialState = {
     getProfilesPending: false,
     createProfilePending: false,
-    createProfileSuccess: false,
     chooseProfilePending: false,
-    loggedIn: Cookies.checkCookie("_p_logged_in") ? true : false,
+    loggedIn: Cookies.checkCookie("_p_logged_in"),
     profiles: [],
     profile: profile ? profile : {},
     getProfilesError: null,
@@ -46,14 +45,12 @@ function authReducers(state = authInitialState, action) {
             return {
                 ...state,
                 createProfilePending: false,
-                createProfileSuccess: true,
                 createProfileError: null,
             };
         case auth.CREATE_PROFILE_FAILED:
             return {
                 ...state,
                 createProfilePending: false,
-                createProfileSuccess: false,
                 createProfileError: payload,
             };
         case auth.CHOOSE_PROFILE:
@@ -89,6 +86,7 @@ function authReducers(state = authInitialState, action) {
 
 const appInitialState = {
     drawerState: false,
+    profileCreatorState: false,
 };
 
 function appReducers(state = appInitialState, action) {
@@ -101,6 +99,14 @@ function appReducers(state = appInitialState, action) {
         case app.CLOSE_DRAWER:
             return {
                 drawerState: false,
+            };
+        case app.OPEN_PROFILE_CREATOR:
+            return {
+                profileCreatorState: true,
+            };
+        case app.CLOSE_PROFILE_CREATOR:
+            return {
+                profileCreatorState: false,
             };
         default:
             return state;

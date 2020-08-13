@@ -1,23 +1,24 @@
 import React from "react";
-import { connect } from "react-redux";
+import {connect} from "react-redux";
 import {
-    Navbar,
-    NavbarGroup,
-    NavbarHeading,
     Alignment,
     Button,
     Drawer,
-    Position,
+    Navbar,
+    NavbarGroup,
+    NavbarHeading,
     Popover,
     PopoverInteractionKind,
+    Position,
 } from "@blueprintjs/core";
-import { logout, handleOpenDrawer, handleCloseDrawer } from "@store/actions";
+import {handleCloseDrawer, handleOpenDrawer, logout} from "@store/actions";
+import {Link} from "react-router-dom";
 
-const NavBar = ({ logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, title, profile }) => {
+const NavBar = ({logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, title, profile}) => {
     return (
         <Navbar className="bp3-dark">
             <NavbarGroup align={Alignment.LEFT}>
-                <Button className="bp3-minimal" onClick={handleOpenDrawer} icon="menu" />
+                <Button className="bp3-minimal" onClick={handleOpenDrawer} icon="menu"/>
                 <Drawer
                     isOpen={isDrawerOpen}
                     canEscapeKeyClose
@@ -28,7 +29,8 @@ const NavBar = ({ logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, tit
                     position={Position.LEFT}
                     size={Drawer.SIZE_SMALL}
                 >
-                    Hello
+                    <Link to="/">Getting Started</Link>
+                    <Link to="/iZba2a">Test</Link>
                 </Drawer>
                 <NavbarHeading>{title}</NavbarHeading>
             </NavbarGroup>

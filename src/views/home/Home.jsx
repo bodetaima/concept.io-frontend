@@ -1,19 +1,18 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Routes from "@views/routes.jsx";
+import NavBar from "@components/navbar/NavBar";
 
-class Home extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-    }
-
-    componentDidMount() {
+function Home() {
+    useEffect(() => {
         document.title = "Concept";
-    }
+    }, []);
 
-    render() {
-        return <Routes />;
-    }
+    return (
+        <>
+            <NavBar/>
+            <Routes/>
+        </>
+    );
 }
 
 export default Home;
