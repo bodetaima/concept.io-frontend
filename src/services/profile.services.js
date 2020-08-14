@@ -2,44 +2,22 @@ import req from "../utils/request";
 
 class ProfileService {
     getProfiles() {
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-        return req.get("profiles", options);
+        return req.get("profiles");
     }
 
     createProfile(profile) {
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(profile),
-        };
-        return req.post("profile/create", options);
+        return req.post("profile/create", profile);
     }
 
     chooseProfile(profile, password = "") {
         if (password !== "") {
             profile.password = password;
         }
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(profile),
-        };
-        return req.post("profile/choose", options);
+        return req.post("profile/choose", profile);
     }
 
     logout() {
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
-        return req.post("profile/logout", options);
+        return req.post("profile/logout");
     }
 }
 

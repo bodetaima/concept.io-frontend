@@ -1,9 +1,9 @@
-import React, {useState} from "react";
-import {Checkbox, Classes, FormGroup, InputGroup, Intent} from "@blueprintjs/core";
+import React, { useState } from "react";
+import { Checkbox, Classes, FormGroup, InputGroup, Intent } from "@blueprintjs/core";
 import styles from "./styles/creator.module.css";
 import req from "@utils/request";
 
-function ProfileCreator({onNameInput, onEmailInput, onPrivateInput, onPasswordInput}) {
+function ProfileCreator({ onNameInput, onEmailInput, onPrivateInput, onPasswordInput }) {
     const [isPrivate, setIsPrivate] = useState(false);
     const [invalidEmail, setInvalidEmail] = useState(false);
     const [duplicateEmail, setDuplicateEmail] = useState(false);
@@ -22,7 +22,7 @@ function ProfileCreator({onNameInput, onEmailInput, onPrivateInput, onPasswordIn
         if (emailRegExp.test(value)) {
             setInvalidEmail(false);
             setTimeout(() => {
-                req.get("profile/emailCheck?_q=" + value, options).then((res) => {
+                req.get("profile/emailCheck?_q=" + value).then((res) => {
                     console.log(res.duplicate);
                     if (res.duplicate) {
                         setDuplicateEmail(true);
@@ -36,11 +36,6 @@ function ProfileCreator({onNameInput, onEmailInput, onPrivateInput, onPasswordIn
         } else {
             setInvalidEmail(true);
         }
-        const options = {
-            headers: {
-                "Content-Type": "application/json",
-            },
-        };
     };
 
     const handlePasswordInput = (e) => {
@@ -48,9 +43,9 @@ function ProfileCreator({onNameInput, onEmailInput, onPrivateInput, onPasswordIn
     };
 
     return (
-        <div className={styles.creator + ' ' + Classes.DIALOG_BODY}>
+        <div className={styles.creator + " " + Classes.DIALOG_BODY}>
             <FormGroup label="Full Name" labelFor="fullname" labelInfo="(required)">
-                <InputGroup id="fullname" placeholder="Enter your name..." onChange={handleNameInput}/>
+                <InputGroup id="fullname" placeholder="Enter your name..." onChange={handleNameInput} />
             </FormGroup>
             <FormGroup
                 label="Email"
@@ -68,7 +63,7 @@ function ProfileCreator({onNameInput, onEmailInput, onPrivateInput, onPasswordIn
                     onChange={verifyEmailInput}
                 />
             </FormGroup>
-            <Checkbox checked={isPrivate} label="Private" onChange={handlePrivate}/>
+            <Checkbox checked={isPrivate} label="Private" onChange={handlePrivate} />
             {isPrivate && (
                 <FormGroup label="Password" labelFor="passwd" labelInfo="(required)">
                     <InputGroup

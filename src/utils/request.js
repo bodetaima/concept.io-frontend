@@ -1,4 +1,4 @@
-import {API_URL} from "@constants";
+import { API_URL } from "@constants";
 import Cookies from "../utils/cookies";
 
 const _csrf = Cookies.getCookie("XSRF-TOKEN");
@@ -18,15 +18,30 @@ function f(path, options) {
 }
 
 export default {
-    get(path, options) {
-        options.method = "GET";
-        options.credentials = "include";
+    get(path) {
+        const options = {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+        };
         return f(path, options);
     },
-    post(path, options) {
-        options.headers["CSRF-Token"] = _csrf;
-        options.method = "POST";
-        options.credentials = "include";
+    post(path, data) {
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "CSRF-Token": _csrf,
+            },
+            credentials: "include",
+        };
+
+        if (data) {
+            options.body = JSON.stringify(data);
+        }
+
         return f(path, options);
     },
 };
