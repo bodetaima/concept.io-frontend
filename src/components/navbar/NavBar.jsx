@@ -1,5 +1,5 @@
 import React from "react";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import {
     Alignment,
     Button,
@@ -11,14 +11,15 @@ import {
     PopoverInteractionKind,
     Position,
 } from "@blueprintjs/core";
-import {handleCloseDrawer, handleOpenDrawer, logout} from "@store/actions";
-import {Link} from "react-router-dom";
+import { handleCloseDrawer, handleOpenDrawer, logout } from "@store/actions";
+import { Link } from "react-router-dom";
+import styles from "./styles/navbar.module.css";
 
-const NavBar = ({logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, title, profile}) => {
+const NavBar = ({ logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, title, profile }) => {
     return (
-        <Navbar className="bp3-dark">
+        <Navbar className={styles.navbarBg}>
             <NavbarGroup align={Alignment.LEFT}>
-                <Button className="bp3-minimal" onClick={handleOpenDrawer} icon="menu"/>
+                <Button className="bp3-minimal" onClick={handleOpenDrawer} icon="menu" />
                 <Drawer
                     isOpen={isDrawerOpen}
                     canEscapeKeyClose
@@ -35,14 +36,14 @@ const NavBar = ({logout, handleOpenDrawer, handleCloseDrawer, isDrawerOpen, titl
                 <NavbarHeading>{title}</NavbarHeading>
             </NavbarGroup>
             <NavbarGroup align={Alignment.RIGHT}>
-                <Button className="bp3-minimal" text="Share" />
-                <Button className="bp3-minimal" text="Add notes" />
+                <Button className="bp3-minimal" style={{ color: "white" }} text="Share" />
+                <Button className="bp3-minimal" style={{ color: "white" }} text="Add notes" />
                 <Popover
                     interactionKind={PopoverInteractionKind.CLICK}
                     popoverClassName="bp3-popover-content-sizing"
                     position={Position.BOTTOM_RIGHT}
                 >
-                    <Button className="bp3-minimal" text={profile.fullname} />
+                    <Button className="bp3-minimal" style={{ color: "white" }} text={profile.fullname} />
                     <div>
                         <p>Do you want to change profile?</p>
                         <Button

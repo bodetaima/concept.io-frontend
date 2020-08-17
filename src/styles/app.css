@@ -5,3 +5,9 @@ button:focus {
 input[type="checkbox"]:focus {
     outline: none;
 }
+
+html {
+    background-color: #F2F4FF;
+}
+
+
